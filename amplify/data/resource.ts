@@ -24,7 +24,22 @@ const schema = a.schema({
     version: a.integer(),
   }),
 
+//データを取得。
+  getPost: a
+  .query()
+  .arguments({ id: a.id().required() })
+  .returns(a.ref("Post"))
+  .authorization(allow => [allow.publicApiKey()])
+  .handler(
+    a.handler.custom({
+      dataSource: "ExternalPostTableDataSource",
+      entry: "./getPost.js",
+    })
+  ),
+
 });
+
+
 
 
 
